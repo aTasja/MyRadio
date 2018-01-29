@@ -1,0 +1,56 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+// This is only the custom _answerZip gradle task. This must be added to the Top-level build file to function.
+
+task _answerZip(type:Zip) {
+    description = 'Makes a single zip file containing all of the required files that you will submit for grading.'
+    from projectDir
+    baseName = 'answer-files'
+    include 'build.gradle'
+    include 'gradle.properties'
+    include 'gradlew'
+    include 'gradlew.bat'
+    include 'settings.gradle'
+    include 'gradle/**'
+    exclude 'build'
+    exclude '.gradle'
+    exclude '*.iml'
+    exclude 'local.properties'
+    include 'app/**'
+    exclude 'app/*.iml'
+    exclude 'app/build'
+    include '.idea/**'
+    exclude '.idea/workspace.xml'
+    exclude '.idea/libraries'
+    destinationDir file('zip')
+}
+

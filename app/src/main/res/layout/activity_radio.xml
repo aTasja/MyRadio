@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:background="@color/black"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".EditActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/radio_image"
+            android:scrollbars = "vertical"
+            android:layout_width="177dp"
+            android:layout_height="165dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/ic_launcher_foreground"
+            android:gravity="center">
+        </ImageView>
+
+
+        <TextView
+            android:id="@+id/radio1"
+            android:scrollbars = "vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_below="@+id/radio_image"
+            android:background="@color/gold"
+            android:textStyle="bold|italic"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/radio2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radio1"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:background="@color/gold"
+            android:textStyle="bold|italic"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/radio3"
+            android:scrollbars = "vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radio2"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:background="@color/gold"
+            android:textStyle="bold|italic"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radio3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity = "center"
+            android:indeterminateDrawable="@drawable/spinner_ring"
+            android:indeterminateOnly="true" />
+
+
+        <TextView
+            android:id="@+id/exit"
+            android:scrollbars = "vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/progressBar"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="@string/exit">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/about"
+            android:scrollbars = "vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/exit"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="@color/gold"
+            android:textSize="20sp"
+            android:text="@string/aboutToEdit">
+
+        </TextView>
+    </RelativeLayout>
+
+
+</ScrollView>
+

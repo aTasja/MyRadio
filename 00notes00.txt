@@ -1,0 +1,5 @@
+notifications
+http://startandroid.ru/ru/uroki/vse-uroki-spiskom/509-android-notifications-osnovy.html
+
+playmedia service
+http://developer.alexanderklimov.ru/android/theory/services-theory.php

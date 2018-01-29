@@ -1,0 +1,36 @@
+<resources>
+    <string name="radio1Title">Radio Iskatel</string>
+    <string name="radio1URL">http://iskatel.hostingradio.ru:8015/iskatel-128.mp3</string>
+    <string name="radio2Title">Nashe Radio</string>
+    <string name="radio2URL">http://nashe1.hostingradio.ru/nashespb128.mp3</string>
+    <string name="radio3Title">Piter FM</string>
+    <string name="radio3URL">http://cdn.radiopiterfm.ru/piterfm</string>
+
+
+    <string name="app_name">My Radio\u0020</string>
+    <string name="playingRadio">playingRadio</string>
+    <string name="isConnected">\u0020is connected</string>
+    <string name="isStopped">\u0020is stopped</string>
+    <string name="internetRestored">Internet connection restored via\u0020</string>
+    <string name="internetLost">Internet connection lost!</string>
+    <string name="exit">Exit</string>
+    <string name="aboutToEdit">About app and Edit</string>
+
+    <string name="app_name_about">My Radio - About App</string>
+    <string name="about">About App</string>
+    <string name="aboutEdit">To edit click on radio station</string>
+    <string name="id">ID</string>
+    <string name="title">Title</string>
+    <string name="uri">Uri</string>
+    <string name="databaseUnavailable">Database unavailable</string>
+
+    <string name="app_name_about_edit">My Radio - About App - Edit</string>
+    <string name="editRadio">Edit Radio Station</string>
+    <string name="inputTitle">Input Radio Title</string>
+    <string name="inputURL">Input Radio URL</string>
+    <string name="save">Save</string>
+    <string name="newRadioSaved">New Radio Station saved</string>
+    <string name="urlNotValid">URL is not valid</string>
+
+    <string name="onExit">Turn me on again when you want!</string>
+</resources>
