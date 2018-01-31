@@ -44,7 +44,10 @@ public class MediaPlayerService
      */
     public static final int NOTIFICATION_ID = 5453;
 
-    boolean sent = false;
+    /**
+     * Use this boolean to check if intent to Activity is sent
+     */
+    boolean intentToActivityIsSent = false;
 
     /**
      * Hook method called when a new instance of Service is created.
@@ -131,9 +134,9 @@ public class MediaPlayerService
         player.start();
 
         //send intent to activity to report the radio has been connected
-        if (!sent) {
+        if (!intentToActivityIsSent) {
             sendBroadcast(new Intent("RADIO CONNECTED"));
-            sent = true;
+            intentToActivityIsSent = true;
         }
     }
 
