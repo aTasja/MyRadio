@@ -117,6 +117,7 @@ public class ContractAndDbHelperTest {
     @After
     public void tearDown() {
         tdb.close();
+        testContext.deleteDatabase(RadioContract.RadioEntry.DATABASE_NAME);
     }
 
 }
