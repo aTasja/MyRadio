@@ -44,6 +44,8 @@ public class MediaPlayerService
      */
     public static final int NOTIFICATION_ID = 5453;
 
+    boolean sent = false;
+
     /**
      * Hook method called when a new instance of Service is created.
      * One time initialization code goes here.
@@ -117,7 +119,7 @@ public class MediaPlayerService
      * song.
      */
     public void onPrepared(MediaPlayer player) {
-        //Log.i(TAG,"Service onPrepared() entered");
+        Log.i(TAG,"Service onPrepared() entered");
 
         // Just play the buffered piece of content once, rather than have it loop endlessly.
         player.setLooping(false);
@@ -129,8 +131,10 @@ public class MediaPlayerService
         player.start();
 
         //send intent to activity to report the radio has been connected
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("RADIO CONNECTED"));
-
+        if (!sent) {
+            sendBroadcast(new Intent("RADIO CONNECTED"));
+            sent = true;
+        }
     }
 
     /**

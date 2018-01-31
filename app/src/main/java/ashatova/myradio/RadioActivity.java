@@ -70,6 +70,13 @@ public class RadioActivity extends Activity{
     public static final String TAG = "myLOG";
 
     /**
+     * Use BroadcastReceiver instances for receiving intents
+     */
+    BroadcastReceiver mReceiver = null;
+    BroadcastReceiver mNetworkReceiver = null;
+    BroadcastReceiver mIncomingCallsReceiver = null;
+
+    /**
      * Hook method called when a new activity is created.  One time
      * initialization code goes here, e.g., initializing views.
      *
@@ -88,7 +95,7 @@ public class RadioActivity extends Activity{
         initiateRadioStations();
 
         // Initialize a new BroadcastReceiver instance for local intents from RadioService.
-        BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // Display a notification that radio has been connected.
@@ -102,13 +109,11 @@ public class RadioActivity extends Activity{
         };
 
         // Register Local Broadcast receiver - use to receive messages from service
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,
-                new IntentFilter("RADIO CONNECTED"));
-
+        registerReceiver(mReceiver, new IntentFilter("RADIO CONNECTED"));
 
         //Initialize a new BroadcastReceiver instance for detecting internet connection of device
         // and restarting service when connection is restored.
-        BroadcastReceiver mNetworkReceiver = new BroadcastReceiver() {
+        mNetworkReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Log.d(TAG, "Network connectivity change");
@@ -136,9 +141,8 @@ public class RadioActivity extends Activity{
         // this is the constant value android.net.conn.CONNECTIVITY_CHANGE
         registerReceiver(mNetworkReceiver, filter);
 
-
         //Initialize a new BroadcastReceiver instance to get intents from CallReceiver.
-        BroadcastReceiver mIncomingCallsReceiver = new BroadcastReceiver() {
+        mIncomingCallsReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
@@ -156,7 +160,7 @@ public class RadioActivity extends Activity{
             }
         };
         // Register Local Broadcast receiver - use to receive messages from service
-        registerReceiver(mIncomingCallsReceiver, new IntentFilter("phoneStateChange"));
+            registerReceiver(mIncomingCallsReceiver, new IntentFilter("phoneStateChange"));
 
     }
 
@@ -230,6 +234,7 @@ public class RadioActivity extends Activity{
 
             }
         });
+
     }
 
     /**
@@ -424,14 +429,34 @@ public class RadioActivity extends Activity{
 
     /**
      * Called when user push Exit button.
-     * It stops PlayService and close App.     *
+     * It stops PlayService, unregisters BroadcastReceivers and close App.     *
      */
     protected void onDestroy(){
         super.onDestroy();
         Log.d(TAG, "onDestroy");
+
+        // unregister BroadcastReceivers
+        if (mReceiver != null){
+            unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
+
+        if (mNetworkReceiver != null){
+            unregisterReceiver(mNetworkReceiver);
+            mNetworkReceiver = null;
+        }
+
+        if (mIncomingCallsReceiver != null){
+            unregisterReceiver(mIncomingCallsReceiver);
+            mIncomingCallsReceiver = null;
+        }
+
+        // stop service if radio is playing
         if (PLAYING != null){
             onStopService(PLAYING);
+            PLAYING = null;
         }
+
         Toast.makeText(getApplicationContext(), R.string.onExit, Toast.LENGTH_SHORT).show();
     }
 }
