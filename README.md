@@ -108,3 +108,5 @@ App have the following structure:
 ### ---RadioProvider class extends ContentProvider---  <br/>
 - Implements a Content Provider used to manage Radio Stations in database.<br/>
 
+This project on GitHub: https://github.com/aTasja/MyRadio
+
