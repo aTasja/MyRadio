@@ -3,7 +3,7 @@
 App will allows to listen to three radio stations. 
 For this work device should be connected to the Internet. 
 URLs of these radio stations will be stored in database. 
-User well see information from database in separate “About app” screen of app.
+User well see information from database in separate “About app” screen of app and edit these radio stations on the 3rd screen. 
 During installation, the application requests access to calls to monitor the status of the phone and turn off the radio during a phone conversation.
 
 <a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/splash_screen.png" align="left" height="360" width="190"></a><a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/main_screen.png" align="left" height="360" width="190"></a><a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/about_screen.png" align="left" height="360" width="190"></a><a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/edit_screen.png" align="left" height="360" width="190"></a>  
