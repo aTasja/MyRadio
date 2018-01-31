@@ -15,12 +15,12 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     /**
      * Debugging tag used by the Android logger.
      */
-    public static final String TAG = "myLOG";
+    public final String TAG = "myLOG";
 
     /**
      * SQL statement used to create the Hobbit table.
      */
-    private static final String SQL_CREATE_RADIO_TABLE =
+    private final String SQL_CREATE_RADIO_TABLE =
             "CREATE TABLE " + RadioEntry.TABLE_NAME + " (" +
                     RadioEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     RadioEntry.RADIO_TITLE + " TEXT NOT NULL UNIQUE, " +
