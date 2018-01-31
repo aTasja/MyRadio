@@ -35,6 +35,7 @@ task _answerZip(type:Zip) {
     description = 'Makes a single zip file containing all of the required files that you will submit for grading.'
     from projectDir
     baseName = 'answer-files'
+    include 'README'
     include 'build.gradle'
     include 'gradle.properties'
     include 'gradlew'
