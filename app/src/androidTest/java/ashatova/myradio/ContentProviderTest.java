@@ -46,6 +46,7 @@ public class ContentProviderTest{
     private String TAG = "myLOG";
 
     // Contains the test data, radio station to insert, update and query
+
     //Radio 1 - will be inserted in empty database and tested if it was done successfully
     private String hTitle1 = "Радио Маяк";
     private String hURL1 = "https://icecast-vgtrk.cdnvideo.ru/mayakfm_aac_64kbps";
@@ -113,8 +114,8 @@ public class ContentProviderTest{
      * and tested if title of Radio 3 equals to title from query.
      */
     @Test
-    public void insertandUpdateRowandQueryTest() {
-        Cursor testCursor;
+    public void insertRowandQueryTest() {
+        Cursor testCursor = null;
         ArrayList<RadioUtils> radioArray;
 
         // delete database in case there is one out there from previous tests.
@@ -152,6 +153,7 @@ public class ContentProviderTest{
         }catch (Exception e){
             Log.d(TAG, "Exception   - " + e);
         }
+
         RadioUtils testInsertedRadio = radioArray.get(0);
 
         // Record we inserted should equal record we queried.
@@ -207,6 +209,7 @@ public class ContentProviderTest{
     @After
     public void tearDown(){
         // cleanup
+        tdb.close();
         testContext.deleteDatabase(RadioContract.RadioEntry.DATABASE_NAME);
     }
 }
