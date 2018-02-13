@@ -48,6 +48,12 @@ public class RadioActivity extends Activity{
     private ProgressBar progressBar;
 
     /**
+     * Use TextView to show when internet connection lost
+     */
+
+    TextView internetConn;
+
+    /**
      * RadioUtils object that stores fields of playing radio
      */
     public static RadioUtils PLAYING = null;
@@ -76,6 +82,8 @@ public class RadioActivity extends Activity{
     BroadcastReceiver mNetworkReceiver = null;
     BroadcastReceiver mIncomingCallsReceiver = null;
 
+
+
     /**
      * Hook method called when a new activity is created.  One time
      * initialization code goes here, e.g., initializing views.
@@ -90,6 +98,10 @@ public class RadioActivity extends Activity{
 
 
         setContentView(R.layout.activity_radio);
+
+        // Cache TextView for info about Internet connectivity
+        internetConn = findViewById(R.id.internet);
+        internetConn.setVisibility(TextView.INVISIBLE);
 
         //add to database 3 radio stations
         initiateRadioStations();
@@ -122,16 +134,20 @@ public class RadioActivity extends Activity{
                     if (ni != null && ni.getState() == NetworkInfo.State.CONNECTED) {
                         Log.d(TAG, "Network " + ni.getTypeName() + " connected");
                         if (connectionLost) {
+                            internetConn.setVisibility(TextView.INVISIBLE);
                             Toast.makeText(context, getResources().getString(R.string.internetRestored) + ni.getTypeName(), Toast.LENGTH_SHORT).show();
                             connectionLost = false;
-                            onStartService(PLAYING);
+                            if (PLAYING != null) {onStartService(PLAYING);}
                         }
                     } else if (intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, Boolean.FALSE)) {
                         connectionLost = true;
                         Log.d(TAG, "There's no network connectivity");
-                        Toast.makeText(context, getResources().getString(R.string.internetLost), Toast.LENGTH_SHORT).show();
-                        onStopService(PLAYING);
+                        internetConn.setVisibility(TextView.VISIBLE);
+                        if (PLAYING !=null) {onStopService(PLAYING);}
+
                     }
+
+
                 }
             }
         };
@@ -196,6 +212,8 @@ public class RadioActivity extends Activity{
 
         // Cache TextView for About and Edit button
         final TextView aboutButton = findViewById(R.id.about);
+
+
 
         // Register a listener to locate  when the user hits radio button.
         radio1.getButton().setOnClickListener(new View.OnClickListener() {
