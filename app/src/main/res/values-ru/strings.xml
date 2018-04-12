@@ -1,0 +1,38 @@
+<resources>
+    <string name="radio1Title">Радио Искатель</string>
+    <string name="radio1URL">http://iskatel.hostingradio.ru:8015/iskatel-128.mp3</string>
+    <string name="radio2Title">Наше Радио</string>
+    <string name="radio2URL">http://nashe1.hostingradio.ru/nashespb128.mp3</string>
+    <string name="radio3Title">Радио Эрмитаж</string>
+    <string name="radio3URL">http://91.190.127.185:8000/live_test </string>
+
+    <string name="permissionRequest">Разрешение запрашивается только в целях мониторинга входящих звонков, чтобы иметь возможность в этом случае выключать радио</string>
+
+    <string name="app_name">Мое радио\u0020</string>
+    <string name="playingRadio">playingRadio</string>
+    <string name="isConnected">\u0020подключено</string>
+    <string name="isStopped">\u0020остановлено</string>
+    <string name="internetRestored">Интернет соединение восстановлено через\u0020</string>
+    <string name="internetLost">Интернет соединение потеряно!</string>
+    <string name="exit">Выход</string>
+    <string name="aboutToEdit">О приложении и правка</string>
+
+    <string name="app_name_about">Мое радио - О приложении</string>
+    <string name="about">О приложении</string>
+    <string name="aboutEdit">Для внесения изменений нажми на радиостанцию</string>
+    <string name="id">Номер</string>
+    <string name="title">Название</string>
+    <string name="uri">Адрес потока</string>
+    <string name="databaseUnavailable">База данных недоступна</string>
+
+    <string name="app_name_about_edit">Мое радио - О приложении - Правка</string>
+    <string name="editRadio">Изменение радиостанции</string>
+    <string name="inputTitle">Назание радиостанции</string>
+    <string name="inputURL">Адрес прямой ссылки на поток радиостанции</string>
+    <string name="save">Сохранить</string>
+    <string name="newRadioSaved">Новая радиостанция сохранена</string>
+    <string name="urlOrTitleIsEmpty">Название радиостанции и/или прямая ссылка на ее поток не введены</string>
+    <string name="urlNotValid">Адрес прямой ссылки на поток недействителен</string>
+
+    <string name="onExit">Включай меня когда захочешь!</string>
+</resources>

@@ -1,10 +1,14 @@
-<resources>
-    <string name="radio1Title">Radio Iskatel</string>
-    <string name="radio1URL">http://iskatel.hostingradio.ru:8015/iskatel-128.mp3</string>
-    <string name="radio2Title">Nashe Radio</string>
-    <string name="radio2URL">http://nashe1.hostingradio.ru/nashespb128.mp3</string>
-    <string name="radio3Title">Piter FM</string>
-    <string name="radio3URL">http://cdn.radiopiterfm.ru/piterfm</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
+
+    <string name="radio1Title">KEXP</string>
+    <string name="radio1URL">https://kexp-mp3-128.streamguys1.com/kexp128.mp3</string>
+    <string name="radio2Title">XRay FM</string>
+    <string name="radio2URL">http://listen.xray.fm:8000/stream</string>
+    <string name="radio3Title">WWOZ</string>
+    <string name="radio3URL">https://wwoz-sc.streamguys1.com/wwoz-hi.mp3</string>
+
+    <string name="permissionRequest">We need the permission to monitor the status of the phone " +
+                    "and turn off the radio during a phone conversation</string>
 
 
     <string name="app_name">My Radio\u0020</string>
@@ -26,10 +30,11 @@
 
     <string name="app_name_about_edit">My Radio - About App - Edit</string>
     <string name="editRadio">Edit Radio Station</string>
-    <string name="inputTitle">Input Radio Title</string>
-    <string name="inputURL">Input Radio URL</string>
+    <string name="inputTitle">Radio Title</string>
+    <string name="inputURL">Direct link to radio stream</string>
     <string name="save">Save</string>
     <string name="newRadioSaved">New Radio Station saved</string>
+    <string name="urlOrTitleIsEmpty">Please input direct link and/or new title</string>
     <string name="urlNotValid">URL is not valid</string>
 
     <string name="onExit">Turn me on again when you want!</string>

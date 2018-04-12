@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.util.Log;
 import android.content.Context;
@@ -38,9 +37,9 @@ public class RadioActivity extends Activity{
     /**
      * Use RadioUtils object each radio.
      */
-    public static RadioUtils radio1;
-    public static RadioUtils radio2;
-    public static RadioUtils radio3;
+    public RadioUtils radio1;
+    public RadioUtils radio2;
+    public RadioUtils radio3;
 
     /**
      * Use progress bar while radio connecting
@@ -56,7 +55,7 @@ public class RadioActivity extends Activity{
     /**
      * RadioUtils object that stores fields of playing radio
      */
-    public static RadioUtils PLAYING = null;
+    public RadioUtils PLAYING = null;
 
     /**
      * Use Intent for intent construction and sending
@@ -129,15 +128,31 @@ public class RadioActivity extends Activity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 Log.d(TAG, "Network connectivity change");
-                if (intent.getExtras() != null) {
-                    NetworkInfo ni = (NetworkInfo) intent.getExtras().get(ConnectivityManager.EXTRA_NETWORK_INFO);
+
+                ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (connectivityManager != null){
+
+                //if (intent.getExtras() != null) {
+
+
+                    //NetworkInfo ni = (NetworkInfo) intent.getExtras().get(ConnectivityManager.EXTRA_NETWORK_INFO);
+
+                    NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
                     if (ni != null && ni.getState() == NetworkInfo.State.CONNECTED) {
                         Log.d(TAG, "Network " + ni.getTypeName() + " connected");
                         if (connectionLost) {
                             internetConn.setVisibility(TextView.INVISIBLE);
                             Toast.makeText(context, getResources().getString(R.string.internetRestored) + ni.getTypeName(), Toast.LENGTH_SHORT).show();
                             connectionLost = false;
-                            if (PLAYING != null) {onStartService(PLAYING);}
+                            if (PLAYING != null) {
+                                onStartService(PLAYING);
+                            }
+                        }else{
+                            if (PLAYING != null) {
+                                Toast.makeText(context, getResources().getString(R.string.internetRestored) + ni.getTypeName(), Toast.LENGTH_SHORT).show();
+                                onStopService(PLAYING);
+                                onStartService(PLAYING);
+                            }
                         }
                     } else if (intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, Boolean.FALSE)) {
                         connectionLost = true;
@@ -267,29 +282,36 @@ public class RadioActivity extends Activity{
         Uri uri = RadioContract.RadioEntry.CONTENT_URI;
         Cursor mCursor = this.getContentResolver().query(uri, null, null, null, null);
 
-        if(!mCursor.moveToFirst()){
-            Log.d(TAG, "Database is empty. SAVING");
+        try {
+            if (mCursor != null && mCursor.moveToFirst()) {
+                Log.d(TAG, "Database is empty. SAVING");
 
-            ContentValues values = new ContentValues();
-            values.clear();
-            values.put(RadioContract.RadioEntry.RADIO_TITLE, getResources().getString(R.string.radio1Title));
-            values.put(RadioContract.RadioEntry.RADIO_URI, getResources().getString(R.string.radio1URL));
-            getApplicationContext().getContentResolver().insert(RadioContract.RadioEntry.CONTENT_URI, values);
+                ContentValues values = new ContentValues();
+                values.clear();
+                values.put(RadioContract.RadioEntry.RADIO_TITLE, getResources().getString(R.string.radio1Title));
+                values.put(RadioContract.RadioEntry.RADIO_URI, getResources().getString(R.string.radio1URL));
+                getApplicationContext().getContentResolver().insert(RadioContract.RadioEntry.CONTENT_URI, values);
 
-            values.clear();
-            values.put(RadioContract.RadioEntry.RADIO_TITLE, getResources().getString(R.string.radio2Title));
-            values.put(RadioContract.RadioEntry.RADIO_URI, getResources().getString(R.string.radio2URL));
-            getApplicationContext().getContentResolver().insert(RadioContract.RadioEntry.CONTENT_URI, values);
+                values.clear();
+                values.put(RadioContract.RadioEntry.RADIO_TITLE, getResources().getString(R.string.radio2Title));
+                values.put(RadioContract.RadioEntry.RADIO_URI, getResources().getString(R.string.radio2URL));
+                getApplicationContext().getContentResolver().insert(RadioContract.RadioEntry.CONTENT_URI, values);
 
-            values.clear();
-            values.put(RadioContract.RadioEntry.RADIO_TITLE, getResources().getString(R.string.radio3Title));
-            values.put(RadioContract.RadioEntry.RADIO_URI, getResources().getString(R.string.radio3URL));
-            getApplicationContext().getContentResolver().insert(RadioContract.RadioEntry.CONTENT_URI, values);
+                values.clear();
+                values.put(RadioContract.RadioEntry.RADIO_TITLE, getResources().getString(R.string.radio3Title));
+                values.put(RadioContract.RadioEntry.RADIO_URI, getResources().getString(R.string.radio3URL));
+                getApplicationContext().getContentResolver().insert(RadioContract.RadioEntry.CONTENT_URI, values);
 
-        }else{
-            Log.d(TAG, "Cannot add to database - database is full");
+            } else {
+                Log.d(TAG, "Cannot add to database - database is full");
+            }
+        }catch (NullPointerException ex){
+            Log.d(TAG, "Exception " + ex);
+        }finally {
+            if (mCursor != null) {
+                mCursor.close();
+            }
         }
-        mCursor.close();
     }
 
     /**
@@ -303,25 +325,27 @@ public class RadioActivity extends Activity{
         Cursor mCursor = this.getContentResolver().query(uri, null, null, null, RadioContract.RadioEntry._ID + " ASC");
         radioInstances = new ArrayList<>(3);
 
-        if(mCursor.moveToFirst()) {
-            Log.d(TAG, "Database is full - displaying");
-            do {
-                RadioUtils radio = RadioUtils.fromCursor(mCursor);
+        try {
+            if (mCursor != null && mCursor.moveToFirst()) {
+                Log.d(TAG, "Database is full - displaying");
+                do {
+                    RadioUtils radio = RadioUtils.fromCursor(mCursor);
 
-                radioInstances.add(radio);
+                    radioInstances.add(radio);
 
-                String title = radio.getTitle();
-                String radioUri = radio.getURI();
-                String radioId = Long.toString(radio.getId());
-                Log.d(TAG, "title = " + title + " uri = " + radioUri + " radioID = " + radioId);
+                    String title = radio.getTitle();
+                    String radioUri = radio.getURI();
+                    String radioId = Long.toString(radio.getId());
+                    Log.d(TAG, "title = " + title + " uri = " + radioUri + " radioID = " + radioId);
 
-            } while (mCursor.moveToNext());
-            radio1 = radioInstances.get(0);
-            radio2 = radioInstances.get(1);
-            radio3 = radioInstances.get(2);
-        }else{
-            Log.d(TAG, "Cannot show database. DATABASE IS EMPTY");
-        }
+                } while (mCursor.moveToNext());
+                radio1 = radioInstances.get(0);
+                radio2 = radioInstances.get(1);
+                radio3 = radioInstances.get(2);
+            } else {
+                Log.d(TAG, "Cannot show database. DATABASE IS EMPTY");
+            }
+        }catch (NullPointerException ex){Log.d(TAG, "Exception " + ex);}
 
     }
 
@@ -406,6 +430,7 @@ public class RadioActivity extends Activity{
         }
     }
 
+
     /**
      * Method starts when selected radio connected.
      * it enables not playing radio buttons and change colors of text on them black.
@@ -423,7 +448,7 @@ public class RadioActivity extends Activity{
                 oneRad.getButton().setEnabled(true);
             // make the text color of button of playing radio red
             }else{
-                radio.getButton().setTextColor(getResources().getColor(R.color.red));
+                oneRad.getButton().setTextColor(getResources().getColor(R.color.red));
             }
         }
     }

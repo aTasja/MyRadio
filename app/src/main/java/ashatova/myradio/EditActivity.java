@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.util.Patterns;
 
 import ashatova.myradio.database.RadioContract;
 import ashatova.myradio.database.RadioUtils;
+
 
 /**
  * This activity interacts with the user to coordinate update operations
@@ -27,7 +28,7 @@ public class EditActivity extends Activity{
     /**
      * Use RadioUtils class to organize radio fields.
      */
-    RadioUtils radio;
+    private RadioUtils radio;
 
     /**
      * EditText field for entering new radio title.
@@ -58,13 +59,13 @@ public class EditActivity extends Activity{
         //Log.d(TAG, "what radio = " + whatRadio);
         switch (whatRadio){
             case 1:
-                radio = RadioActivity.radio1;
+                radio = RadioActivity.radioInstances.get(0);
                 break;
             case 2:
-                radio = RadioActivity.radio2;
+                radio = RadioActivity.radioInstances.get(1);
                 break;
             case 3:
-                radio = RadioActivity.radio3;
+                radio = RadioActivity.radioInstances.get(2);
                 break;
         }
 
@@ -110,7 +111,7 @@ public class EditActivity extends Activity{
      */
     public void updateRadio(RadioUtils radio, String title, String url){
 
-        if (validateUrl(url)) {
+        if (!url.isEmpty() && validateUrl(url)) {
             ContentValues values = new ContentValues();
             values.clear();
             values.put(RadioContract.RadioEntry.RADIO_TITLE, title);
@@ -122,6 +123,8 @@ public class EditActivity extends Activity{
             //Log.d(TAG, "New Radio added to database - " + "title = " + title + " uri = " + uri + " id = " + Long.toString(radio.getId()));
             Toast.makeText(this, R.string.newRadioSaved, Toast.LENGTH_SHORT).show();
             finish();
+        }else if (url.isEmpty() || title.isEmpty()){
+            Toast.makeText(this, R.string.urlOrTitleIsEmpty, Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(this, R.string.urlNotValid, Toast.LENGTH_SHORT).show();
         }

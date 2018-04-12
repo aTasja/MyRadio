@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 
 import ashatova.myradio.database.RadioContract;
 
@@ -92,7 +93,7 @@ public class AboutActivity extends Activity  {
                     //Log.d(TAG, "position = " + position + " id = " + id);
                     intent = new Intent(AboutActivity.this, EditActivity.class);
                     intent.putExtra("whatRadio", (int)id);
-                    startActivity(intent);
+                    getApplicationContext().startActivity(intent);
                 }
             });
 

@@ -130,7 +130,7 @@ public class MediaPlayerService
         // Note that radio is now playing.
         mRadioPlaying = true;
 
-        // Start playing the song.
+        // Start playing the radio
         player.start();
 
         //send intent to activity to report the radio has been connected
@@ -194,7 +194,9 @@ public class MediaPlayerService
         //Remove Notification
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         try{
-            notificationManager.cancel(NOTIFICATION_ID);
+            if (notificationManager != null) {
+                notificationManager.cancel(NOTIFICATION_ID);
+            }
         }catch (Exception e){
             Log.d(TAG, "Notification cancel Exception - " + e);
         }
