@@ -15,7 +15,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     /**
      * Debugging tag used by the Android logger.
      */
-    public final String TAG = "myLOG";
+    private final String TAG = "myLOG";
 
     /**
      * SQL statement used to create the Hobbit table.

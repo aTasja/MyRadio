@@ -51,8 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingLeft="40dp"
-        android:paddingRight="10dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="10dp"
         android:text="@string/uri"
         android:textColor="@color/white"
         android:textSize="15sp"
@@ -66,3 +66,4 @@
         android:background="@color/white" />
 
 </LinearLayout>
+

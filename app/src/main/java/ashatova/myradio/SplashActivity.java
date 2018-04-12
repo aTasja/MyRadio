@@ -55,12 +55,12 @@ public class SplashActivity extends Activity {
                     Log.d("myLOG", "Permission granted!");
                 } else {
                     askPermission();
-                    }
+                }
                 Intent intent = new Intent(this, RadioActivity.class);
                 startActivity(intent);
                 finish();
-                }
             }
+        }
     }
 
     public void askPermission(){

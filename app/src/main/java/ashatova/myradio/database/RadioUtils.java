@@ -45,7 +45,7 @@ public class RadioUtils {
     /**
      * Constructor initializes all fields from a cursor.
      */
-   public RadioUtils(@NonNull Cursor cursor) {
+    private RadioUtils(@NonNull Cursor cursor) {
         mId = cursor.getInt(cursor.getColumnIndex(RadioContract.RadioEntry._ID));
         radioTitle = cursor.getString(cursor.getColumnIndex(RadioContract.RadioEntry.RADIO_TITLE));
         radioURI = cursor.getString(cursor.getColumnIndex(RadioContract.RadioEntry.RADIO_URI));

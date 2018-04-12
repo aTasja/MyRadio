@@ -101,7 +101,9 @@ public class RadioProvider extends ContentProvider {
         Uri resultUri = ContentUris.withAppendedId(RadioEntry.CONTENT_URI, rowID);
 
         //Notifies registered observers that a row was inserted.
-        getContext().getContentResolver().notifyChange(resultUri, null);
+        if (getContext() != null) {
+            getContext().getContentResolver().notifyChange(resultUri, null);
+        }
         return resultUri;
     }
 

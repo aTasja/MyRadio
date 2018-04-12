@@ -115,7 +115,7 @@ public class ContentProviderTest{
      */
     @Test
     public void insertRowandQueryTest() {
-        Cursor testCursor = null;
+        Cursor testCursor;
         ArrayList<RadioUtils> radioArray;
 
         // delete database in case there is one out there from previous tests.
@@ -144,7 +144,7 @@ public class ContentProviderTest{
                     RadioContract.RadioEntry.ALL_COLUMNS, rowQueryString, args, null);
 
             // Get database stable records
-            if (testCursor.moveToFirst()) {
+            if (testCursor != null && testCursor.moveToFirst()) {
                 do {
                     RadioUtils radio = RadioUtils.fromCursor(testCursor);
                     radioArray.add(radio);
@@ -189,7 +189,7 @@ public class ContentProviderTest{
 
             // Get database stable records
 
-            if (testCursor.moveToFirst()) {
+            if (testCursor != null && testCursor.moveToFirst()) {
                 do {
                     RadioUtils radio = RadioUtils.fromCursor(testCursor);
                     radioArray.add(radio);

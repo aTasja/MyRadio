@@ -19,14 +19,19 @@ public class CallReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            String state = extras.getString(TelephonyManager.EXTRA_STATE); // RINGING or OFFHOOK or IDLE
-            Log.d("myLOG", "PHONE STATE - " + state);
+            String action = intent.getAction();
+            //Log.d("myLOG", "ACTION " + action);
 
-            //send intent to activity to report phone state
-            Intent newIntent = new Intent("phoneStateChange");
-            newIntent.putExtra("state", state);
-            context.sendBroadcast(newIntent);
-            Log.d("myLOG", "PHONE STATE local broadcast sent = " + state);
+            if (action != null && action.equals("android.intent.action.PHONE_STATE")) {
+                String state = extras.getString(TelephonyManager.EXTRA_STATE); // RINGING or OFFHOOK or IDLE
+                Log.d("myLOG", "PHONE STATE - " + state);
+
+                //send intent to activity to report phone state
+                Intent newIntent = new Intent("phoneStateChange");
+                newIntent.putExtra("state", state);
+                context.sendBroadcast(newIntent);
+                Log.d("myLOG", "PHONE STATE local broadcast sent = " + state);
+            }
 
         }
     }
