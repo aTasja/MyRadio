@@ -4,7 +4,7 @@ App will allows to listen to three radio stations.
 For this work device should be connected to the Internet. 
 URLs of these radio stations will be stored in database. 
 User well see information from database in separate “About app” screen of app and edit these radio stations on the 3rd screen. 
-During installation, the application requests access to calls to monitor the status of the phone and turn off the radio during a phone conversation.
+During installation, the application requests permission to access calls to monitor the status of the phone and turn off the radio during a phone conversation.
 
 <a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/splash_screen.png" align="left" height="360" width="190"></a><a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/main_screen.png" align="left" height="360" width="190"></a><a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/about_screen.png" align="left" height="360" width="190"></a><a href="url"><img src="https://github.com/aTasja/MyRadio/raw/master/00pics/edit_screen.png" align="left" height="360" width="190"></a>  
 <br/>  
@@ -32,7 +32,7 @@ About app and Edit button
 
 III. The 3rd screen displays URLs of current radio stations from database. If user select one of the radio on the screen to edit it, the latest screen will be shown.
 
-IV. The latest screen allows to user enter title and URL of new radio station and save it for the App.
+IV. The latest screen allows to user enter title and direct link to radio stream (URL) and save them for the App.
 
 Behaviour:
 ----------
@@ -51,6 +51,9 @@ Behaviour:
    If URL will be invalid an appropliate toast will be shown.
 8. While the radio is playing, the application responds to incoming calls. 
    At the moment of an incoming call, the radio stops. After the end of the call or conversation, the radio reconnects.
+9. While the radio is playing a push notification is been showing on the top bar of device. 
+   The notification  includes name of app and name of playing radio station. 
+   If user push the notification, main screen of app will be shown. 
 
 App firstly connect to three radio stream URLs:
 -----------------------------------------------
@@ -62,7 +65,7 @@ App have the following structure:
 ---------------------------------
 
 ### ---SplashActivity class extends Activity--- <br/>
-- During installation, the application requests access to calls to monitor the status of the phone and turn off the radio during a phone conversation.
+- After installation, the application requests permission to access calls to monitor the status of the phone and turn off the radio during a phone conversation.
 - Launches the app and send intent to RadioActivity class to start.<br/>
 <br/>
 
@@ -70,13 +73,17 @@ App have the following structure:
 - Launches user interface with 5 buttons.<br/>
 - Handle all button mode changes, including progress bar.<br/>
 - Send intent to PlayService class to connect radio.<br/>
-- Have BroadcastReceiver (dynamically registered) to receive messages from Service about Radio connecting.<br/>
+- Have three BroadcastReceivers (dynamically registered) <br/>
+	a) to receive messages from Service about Radio connecting.<br/>
+	b) to receive messages about Internet connectivity of device.<br/>
+	c) to receive messages about Phone status (OFFHOOK, IDLE, RINGING). <br/>
 - Stops service.<br/>
 <br/>
 
 ### ---PlayService class extends IntentService---  <br/>
 - From starting intent gets radio URI and starts MediaPlayer.<br/>
 - After connecting to radio station send local broadcast message to RadioActivity.<br/>
+- Create Notification for top bar.<br/>
 <br/>
 
 ### ---DataActivity class---  <br/>
@@ -90,7 +97,7 @@ App have the following structure:
 - Launches "My Radio - About app - Edit" screen.<br/>
 - Allows to enter new title and URL in plase of selected radio station.<br/>
 - If URL is valid radio station will be saved in database and DataActivity will starts again.<br/>
-- Otherwice user will see appropriate toast message and stay in the same screen.<br/>
+- Otherwice or if title or URL is empty user will see appropriate toast message and stay in the same screen.<br/>
 <br/>
 
 ### ---RadioUtils class---  <br/>
