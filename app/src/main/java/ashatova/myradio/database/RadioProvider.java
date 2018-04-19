@@ -11,17 +11,16 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import ashatova.myradio.database.RadioContract;
 import ashatova.myradio.database.RadioContract.RadioEntry;
-import ashatova.myradio.database.DBOpenHelper;
+
 
 
 public class RadioProvider extends ContentProvider {
 
-    /**
+    /*
      * Debugging tag used by the Android logger.
      */
-    public static final String TAG = "myLOG";
+    //public static final String TAG = "myLOG";
 
     /**
      * Use DBOpenHelper to manage database creation and version

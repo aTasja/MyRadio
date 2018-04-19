@@ -14,16 +14,16 @@ import ashatova.myradio.database.RadioContract;
 import ashatova.myradio.database.RadioUtils;
 
 
-/**
+/*
  * This activity interacts with the user to coordinate update operations
  * on the RadioProvider using radio stations.
  */
 public class EditActivity extends Activity{
 
-    /**
+    /*
      * Debugging tag used by the Android logger.
      */
-    public static final String TAG = "myLOG";
+    //public static final String TAG = "myLOG";
 
     /**
      * Use RadioUtils class to organize radio fields.

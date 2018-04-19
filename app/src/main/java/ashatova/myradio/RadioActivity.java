@@ -266,7 +266,6 @@ public class RadioActivity extends Activity{
 
             }
         });
-
     }
 
     /**
@@ -326,9 +325,9 @@ public class RadioActivity extends Activity{
 
                 radioInstances.add(radio);
 
-                String title = radio.getTitle();
-                String radioUri = radio.getURI();
-                String radioId = Long.toString(radio.getId());
+                //String title = radio.getTitle();
+                //String radioUri = radio.getURI();
+                ///String radioId = Long.toString(radio.getId());
                 //Log.d(TAG, "title = " + title + " uri = " + radioUri + " radioID = " + radioId);
 
             } while (mCursor.moveToNext());

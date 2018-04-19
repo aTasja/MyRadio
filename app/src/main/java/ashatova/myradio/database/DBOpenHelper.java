@@ -12,21 +12,12 @@ import ashatova.myradio.database.RadioContract.RadioEntry;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    /**
+    /*
      * Debugging tag used by the Android logger.
      */
     private final String TAG = "myLOG";
 
-    /**
-     * SQL statement used to create the Hobbit table.
-     */
-    private final String SQL_CREATE_RADIO_TABLE =
-            "CREATE TABLE " + RadioEntry.TABLE_NAME + " (" +
-                    RadioEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    RadioEntry.RADIO_TITLE + " TEXT NOT NULL UNIQUE, " +
-                    RadioEntry.RADIO_URI + " TEXT NOT NULL, " +
-                    //);"
-                    "UNIQUE("+ RadioEntry.RADIO_TITLE +", " + RadioEntry.RADIO_URI +"));";
+
 
     /**
      * Constructor - initialize database name and version, but don't
@@ -49,6 +40,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        //SQL statement used to create the Hobbit table.
+        final String SQL_CREATE_RADIO_TABLE =
+                "CREATE TABLE " + RadioEntry.TABLE_NAME + " (" +
+                        RadioEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        RadioEntry.RADIO_TITLE + " TEXT NOT NULL UNIQUE, " +
+                        RadioEntry.RADIO_URI + " TEXT NOT NULL, " +
+                        //);"
+                        "UNIQUE("+ RadioEntry.RADIO_TITLE +", " + RadioEntry.RADIO_URI +"));";
         // Create the table.
         db.execSQL(SQL_CREATE_RADIO_TABLE);
         //Log.d(TAG, "SQLiteDatabase created");

@@ -14,29 +14,24 @@ import android.support.v4.widget.SimpleCursorAdapter;
 
 import ashatova.myradio.database.RadioContract;
 
-/**
+/*
  * This activity interacts with the user to coordinate query operations
  * on the RadioProvider using radio stations.
  */
 public class AboutActivity extends Activity  {
 
-    /**
+    /*
      * Debugging tag used by the Android logger.
      */
-    public static final String TAG = "myLOG";
+    //public static final String TAG = "myLOG";
 
 
-    /**
+    /*
      *Cursor field used for read-write access to the result set returned by a database query.
      */
     private Cursor mCursor;
 
-    /**
-     * ListView field for displaying database.
-     */
-    private ListView mLv;
-
-    /**
+    /*
      * Use Intent field to send intents to EditActivity/
      */
     Intent intent;
@@ -67,7 +62,7 @@ public class AboutActivity extends Activity  {
         super.onStart();
 
         // Cache ListView field for displaying database.
-        mLv = findViewById(R.id.radioList);
+        ListView mLv = findViewById(R.id.radioList);
 
         try{
             Uri uri = RadioContract.RadioEntry.CONTENT_URI;
