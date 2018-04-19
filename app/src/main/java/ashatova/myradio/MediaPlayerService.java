@@ -133,9 +133,9 @@ public class MediaPlayerService
         // Start playing the song.
         player.start();
 
-        //send intent to activity to report the radio has been connected
+        //send local intent to activity to report the radio has been connected
         if (!intentToActivityIsSent) {
-            sendBroadcast(new Intent("RADIO CONNECTED"));
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("RADIO CONNECTED"));
             intentToActivityIsSent = true;
         }
     }

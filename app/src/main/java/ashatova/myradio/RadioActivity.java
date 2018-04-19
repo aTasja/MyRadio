@@ -10,6 +10,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.util.Log;
 import android.content.Context;
@@ -77,11 +80,8 @@ public class RadioActivity extends Activity{
     /**
      * Use BroadcastReceiver instances for receiving intents
      */
-    BroadcastReceiver mReceiver = null;
-    BroadcastReceiver mNetworkReceiver = null;
-    BroadcastReceiver mIncomingCallsReceiver = null;
-
-
+    private BroadcastReceiver mReceiver = null;
+    private BroadcastReceiver mNetworkReceiver = null;
 
     /**
      * Hook method called when a new activity is created.  One time
@@ -120,7 +120,8 @@ public class RadioActivity extends Activity{
         };
 
         // Register Local Broadcast receiver - use to receive messages from service
-        registerReceiver(mReceiver, new IntentFilter("RADIO CONNECTED"));
+        IntentFilter serviceFilter = new IntentFilter("RADIO CONNECTED");
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, serviceFilter);
 
         //Initialize a new BroadcastReceiver instance for detecting internet connection of device
         // and restarting service when connection is restored.
@@ -129,8 +130,8 @@ public class RadioActivity extends Activity{
             public void onReceive(Context context, Intent intent) {
                 Log.d(TAG, "Network connectivity change");
 
-                ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                if (connectivityManager != null){
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (connectivityManager != null) {
                     NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
                     if (ni != null && ni.getState() == NetworkInfo.State.CONNECTED) {
                         Log.d(TAG, "Network " + ni.getTypeName() + " connected");
@@ -141,7 +142,7 @@ public class RadioActivity extends Activity{
                             if (PLAYING != null) {
                                 onStartService(PLAYING);
                             }
-                        }else{
+                        } else {
                             if (PLAYING != null) {
                                 Toast.makeText(context, getResources().getString(R.string.internetRestored) + ni.getTypeName(), Toast.LENGTH_SHORT).show();
                                 onStopService(PLAYING);
@@ -152,40 +153,46 @@ public class RadioActivity extends Activity{
                         connectionLost = true;
                         Log.d(TAG, "There's no network connectivity");
                         internetConn.setVisibility(TextView.VISIBLE);
-                        if (PLAYING !=null) {onStopService(PLAYING);}
+                        if (PLAYING != null) {
+                            onStopService(PLAYING);
+                        }
                     }
                 }
             }
         };
 
         // Register Broadcast receiver to get network status changes
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+        IntentFilter netFilter = new IntentFilter();
+        netFilter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
         // this is the constant value android.net.conn.CONNECTIVITY_CHANGE
-        registerReceiver(mNetworkReceiver, filter);
+        registerReceiver(mNetworkReceiver, netFilter);
 
-        //Initialize a new BroadcastReceiver instance to get intents from CallReceiver.
-        mIncomingCallsReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                String state = intent.getStringExtra("state");
-                Log.d(TAG, "PHONE STATE local intent received" + state);
-
-                // phone RINGING and radio playing --> stop radio
-                if (state.equals("RINGING")) { //звонит телефон
-                    if (PLAYING != null){ onStopService(PLAYING);}
-
-                // phone OFFHOOK or IDLE and PLAYING not null --> restart radio
-                } else if (state.equals("IDLE")) {
-                    if (PLAYING != null){onStartService(PLAYING);}
-                }
+        /*
+         * Use PhoneStateListener instances for listening to phone state
+         */
+        TelephonyManager mIncomingCallsReceiver = (TelephonyManager)getApplicationContext()
+                .getSystemService(Context.TELEPHONY_SERVICE);
+            if (mIncomingCallsReceiver != null) {
+                mIncomingCallsReceiver.listen(new PhoneStateListener() {
+                    @Override
+                    public void onCallStateChanged(int state, String incomingNumber) {
+                        //Log.d(TAG, "PHONE STATE RADIO broadcast received = " + state);
+                        switch (state) {
+                            case TelephonyManager.CALL_STATE_IDLE:
+                                if (PLAYING != null) {
+                                    onStartService(PLAYING);
+                                }
+                                break;
+                            case TelephonyManager.CALL_STATE_RINGING:
+                                if (PLAYING != null) {
+                                    onStopService(PLAYING);
+                                }
+                                break;
+                        }
+                    }
+                }, PhoneStateListener.LISTEN_CALL_STATE);
             }
-        };
-        // Register Local Broadcast receiver - use to receive messages from service
-            registerReceiver(mIncomingCallsReceiver, new IntentFilter("phoneStateChange"));
-
-    }
+    }//close onCreate
 
     /**
      * When the activity enters the Started state, the system invokes this callback.
@@ -275,7 +282,7 @@ public class RadioActivity extends Activity{
         Cursor mCursor = this.getContentResolver().query(uri, null, null, null, null);
 
         if(mCursor != null && !mCursor.moveToFirst()){
-            Log.d(TAG, "Database is empty. SAVING");
+            //Log.d(TAG, "Database is empty. SAVING");
 
             ContentValues values = new ContentValues();
             values.clear();
@@ -313,7 +320,7 @@ public class RadioActivity extends Activity{
         radioInstances = new ArrayList<>(3);
 
         if(mCursor != null && mCursor.moveToFirst()) {
-            Log.d(TAG, "Database is full - displaying");
+            //Log.d(TAG, "Database is full - displaying");
             do {
                 RadioUtils radio = RadioUtils.fromCursor(mCursor);
 
@@ -322,7 +329,7 @@ public class RadioActivity extends Activity{
                 String title = radio.getTitle();
                 String radioUri = radio.getURI();
                 String radioId = Long.toString(radio.getId());
-                Log.d(TAG, "title = " + title + " uri = " + radioUri + " radioID = " + radioId);
+                //Log.d(TAG, "title = " + title + " uri = " + radioUri + " radioID = " + radioId);
 
             } while (mCursor.moveToNext());
             radio1 = radioInstances.get(0);
@@ -466,18 +473,13 @@ public class RadioActivity extends Activity{
 
         // unregister BroadcastReceivers
         if (mReceiver != null){
-            unregisterReceiver(mReceiver);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
             mReceiver = null;
         }
 
         if (mNetworkReceiver != null){
             unregisterReceiver(mNetworkReceiver);
             mNetworkReceiver = null;
-        }
-
-        if (mIncomingCallsReceiver != null){
-            unregisterReceiver(mIncomingCallsReceiver);
-            mIncomingCallsReceiver = null;
         }
 
         // stop service if radio is playing
