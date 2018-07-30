@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -415,9 +416,9 @@ public class RadioActivity extends Activity{
         // make the buttons of other radio stations inactive, and the playing radio station is red
         for (RadioUtils oneRad: radioInstances){
             if (oneRad.getButton() == radio.getButton()){
-                oneRad.getButton().setTextColor(getResources().getColor(R.color.red));
+                oneRad.getButton().setTextColor(ContextCompat.getColor(this, R.color.red));
             }else{
-                oneRad.getButton().setTextColor(getResources().getColor(R.color.gray));
+                oneRad.getButton().setTextColor(ContextCompat.getColor(this, R.color.gray));
                 oneRad.getButton().setEnabled(false);
             }
         }
@@ -436,11 +437,11 @@ public class RadioActivity extends Activity{
         for(RadioUtils oneRad:radioInstances){
             // make buttons of not playing radio stations active and their text color black
             if(oneRad.getButton() != PLAYING.getButton()){
-                oneRad.getButton().setTextColor(getResources().getColor(R.color.black));
+                oneRad.getButton().setTextColor(ContextCompat.getColor(this, R.color.black));
                 oneRad.getButton().setEnabled(true);
             // make the text color of button of playing radio red
             }else{
-                radio.getButton().setTextColor(getResources().getColor(R.color.red));
+                radio.getButton().setTextColor(ContextCompat.getColor(this, R.color.red));
             }
         }
     }
@@ -457,7 +458,7 @@ public class RadioActivity extends Activity{
 
         // make all buttons of radio stations active and their text color black
         for (RadioUtils oneRad : radioInstances) {
-            oneRad.getButton().setTextColor(getResources().getColor(R.color.black));
+            oneRad.getButton().setTextColor(ContextCompat.getColor(this, R.color.black));
             oneRad.getButton().setEnabled(true);
         }
     }

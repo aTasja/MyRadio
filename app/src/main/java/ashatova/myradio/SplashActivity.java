@@ -11,8 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-
 /**
  * Splash screen of app. Ask user READ_PHONE_STATE permission and
  * starts RadioActivity.

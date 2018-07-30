@@ -1,6 +1,7 @@
 package ashatova.myradio;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import java.io.IOException;
@@ -40,9 +43,16 @@ public class MediaPlayerService
     private static MediaPlayer mPlayer;
 
     /**
+     * The NotificationManager used to handle notifications.
+     */
+    private NotificationManager notificationManager;
+
+
+    /**
      * The NOTIFICATION_ID used to handle notifications.
      */
     public static final int NOTIFICATION_ID = 5453;
+
 
     /**
      * Use this boolean to check if intent to Activity is sent
@@ -65,8 +75,9 @@ public class MediaPlayerService
         mPlayer = new MediaPlayer();
 
         // Indicate the MediaPlayer will stream the audio.
-        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
+
 
 
 
@@ -163,15 +174,29 @@ public class MediaPlayerService
                                                                 (int)System.currentTimeMillis(),
                                                                 intent,
                                                                 PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notification = new Notification.Builder(this)
+
+        String CHANNEL_ID = "radio_channel_1"; // The ID for the channel
+        CharSequence name = getString(R.string.app_name);
+        int importance = NotificationManager.IMPORTANCE_MIN;
+        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+
+
+        Notification notification = new Notification.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(getString(R.string.app_name))
+                .setContentTitle(name)
                 .setContentText(text)
-                .setPriority(Notification.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .build();
-        startForeground(NOTIFICATION_ID,  notification);
+
+        notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null){
+            notificationManager.notify(NOTIFICATION_ID, notification);
+        }
+
+
+
+        // startForeground(NOTIFICATION_ID,  notification);
     }
 
     /**
@@ -192,10 +217,10 @@ public class MediaPlayerService
         stopSelf();
 
         //Remove Notification
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        //NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null){
-                notificationManager.cancel(NOTIFICATION_ID);
-            }
+            notificationManager.cancelAll();
+        }
 
     }
 
