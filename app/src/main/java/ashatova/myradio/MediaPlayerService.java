@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -75,11 +76,10 @@ public class MediaPlayerService
         mPlayer = new MediaPlayer();
 
         // Indicate the MediaPlayer will stream the audio.
-        //mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build());
     }
-
-
-
 
     /**
      * Hook method called every time startService() is called with an
@@ -193,10 +193,6 @@ public class MediaPlayerService
         if (notificationManager != null){
             notificationManager.notify(NOTIFICATION_ID, notification);
         }
-
-
-
-        // startForeground(NOTIFICATION_ID,  notification);
     }
 
     /**
