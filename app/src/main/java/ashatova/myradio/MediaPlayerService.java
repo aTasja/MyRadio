@@ -88,7 +88,7 @@ public class MediaPlayerService
     @Override
     public int onStartCommand(Intent intent,
                               int flags,
-                              int startid) {
+                              int startId) {
         // Extract the URL for the radio to play.
         final String radioURL = intent.getStringExtra("url");
         final String radioTitle = intent.getStringExtra("title");
@@ -161,13 +161,13 @@ public class MediaPlayerService
         mPlayer.stop();
 
         // Reset the state machine of the MediaPlayer.
-        mPlayer.reset();
+        mPlayer.release();
 
         // Note that no radio is playing.
         mRadioPlaying = false;
     }
 
-    private void showText(final String text){
+    private void showText(final String radioName){
 
         Intent intent = new Intent(this, RadioActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
@@ -176,22 +176,32 @@ public class MediaPlayerService
                                                                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         String CHANNEL_ID = "radio_channel_1"; // The ID for the channel
-        CharSequence name = getString(R.string.app_name);
-        int importance = NotificationManager.IMPORTANCE_MIN;
-        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-        Notification notification = new Notification.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(name)
-                .setContentText(text)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true)
-                .build();
+            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentText(radioName)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(false);
 
-        notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager != null){
-            notificationManager.notify(NOTIFICATION_ID, notification);
+            Notification notification = builder.build();
+            startForeground(1, notification);
+
+        } else {
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentText(radioName)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(false);
+
+            Notification notification = builder.build();
+
+            startForeground(1, notification);
         }
     }
 
