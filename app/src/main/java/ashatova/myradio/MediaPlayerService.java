@@ -177,11 +177,12 @@ public class MediaPlayerService
 
 
 
-        notificationManager = getSystemService(NotificationManager.class);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             // Create a channel and set the importance
+            notificationManager = getSystemService(NotificationManager.class);
             String CHANNEL_ID = "radio_channel_1";
             CharSequence channel_name = "RADIO_CHANEL";
             String channel_description = "CHANNEL_FOR_RADIO";
