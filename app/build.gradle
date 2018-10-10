@@ -24,6 +24,9 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    repositories {
+        maven { url 'http://repo1.maven.org/maven2' }
+    }
 
 }
 
