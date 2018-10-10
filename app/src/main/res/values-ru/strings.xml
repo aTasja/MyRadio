@@ -3,8 +3,8 @@
     <string name="radio1URL">http://iskatel.hostingradio.ru:8015/iskatel-128.mp3</string>
     <string name="radio2Title">Наше Радио</string>
     <string name="radio2URL">http://nashe1.hostingradio.ru/nashespb128.mp3</string>
-    <string name="radio3Title">Радио Эрмитаж</string>
-    <string name="radio3URL">http://91.190.127.185:8000/live_test</string>
+    <string name="radio3Title">Радио JAZZ - Smooth</string>
+    <string name="radio3URL">http://jazz128smooth.streamr.ru/</string>
 
     <string name="permissionRequest">Разрешение запрашивается только в целях мониторинга входящих звонков, чтобы иметь возможность в этом случае выключать радио</string>
 

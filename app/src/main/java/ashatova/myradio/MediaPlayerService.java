@@ -52,7 +52,7 @@ public class MediaPlayerService
     /**
      * The NOTIFICATION_ID used to handle notifications.
      */
-    public static final int NOTIFICATION_ID = 5453;
+    //public static final int NOTIFICATION_ID = 5453;
 
 
     /**
@@ -93,7 +93,7 @@ public class MediaPlayerService
         final String radioURL = intent.getStringExtra("url");
         final String radioTitle = intent.getStringExtra("title");
 
-        showText(radioTitle);
+        showNotification(radioTitle);
 
         Log.d(TAG,"Service onStartCommand() entered with radio URL " + radioURL);
 
@@ -167,7 +167,7 @@ public class MediaPlayerService
         mRadioPlaying = false;
     }
 
-    private void showText(final String radioName){
+    private void showNotification(final String radioName){
 
         Intent intent = new Intent(this, RadioActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
@@ -175,11 +175,25 @@ public class MediaPlayerService
                                                                 intent,
                                                                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String CHANNEL_ID = "radio_channel_1"; // The ID for the channel
+
+
+        notificationManager = getSystemService(NotificationManager.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+            // Create a channel and set the importance
+            String CHANNEL_ID = "radio_channel_1";
+            CharSequence channel_name = "RADIO_CHANEL";
+            String channel_description = "CHANNEL_FOR_RADIO";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channel_name, importance);
+            channel.setDescription(channel_description);
+
+            notificationManager.createNotificationChannel(channel);
+
+            // Set the notification's tap action
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(getString(R.string.app_name))
                     .setContentText(radioName)
