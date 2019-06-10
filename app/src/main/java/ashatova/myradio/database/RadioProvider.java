@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import ashatova.myradio.database.RadioContract.RadioEntry;
 
@@ -20,7 +21,7 @@ public class RadioProvider extends ContentProvider {
     /*
      * Debugging tag used by the Android logger.
      */
-    //public static final String TAG = "myLOG";
+    public static final String TAG = "myLOG";
 
     /**
      * Use DBOpenHelper to manage database creation and version
@@ -57,7 +58,7 @@ public class RadioProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
-        //Log.d(TAG, "RadioProvider onCreate");
+        Log.d(TAG, "RadioProvider onCreate");
         mContext = getContext();
 
         // Select the concrete implementor.

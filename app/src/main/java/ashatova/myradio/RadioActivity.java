@@ -277,13 +277,14 @@ public class RadioActivity extends Activity{
      * Piter FM - http://cdn.radiopiterfm.ru/piterfm
      */
     public void initiateRadioStations() {
-        //Log.d(TAG, "initiateRadioStations()");
+        Log.d(TAG, "initiateRadioStations()");
 
         Uri uri = RadioContract.RadioEntry.CONTENT_URI;
+        Log.d(TAG, uri.toString());
         Cursor mCursor = this.getContentResolver().query(uri, null, null, null, null);
 
         if(mCursor != null && !mCursor.moveToFirst()){
-            //Log.d(TAG, "Database is empty. SAVING");
+            Log.d(TAG, "Database is empty. SAVING");
 
             ContentValues values = new ContentValues();
             values.clear();
@@ -315,7 +316,7 @@ public class RadioActivity extends Activity{
      * - by names radio1, radio2, radio3
      */
     public void updateRadioInstances(){
-        //Log.d(TAG, "updateRadioInstances()");
+        Log.d(TAG, "updateRadioInstances()");
         Uri uri = RadioContract.RadioEntry.CONTENT_URI;
         Cursor mCursor = this.getContentResolver().query(uri, null, null, null, RadioContract.RadioEntry._ID + " ASC");
         radioInstances = new ArrayList<>(3);
